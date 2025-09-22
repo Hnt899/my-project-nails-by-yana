@@ -2,57 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Elegant nail salon design system with luxury aesthetics */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Core brand colors */
+    --background: 120 22% 3%; /* Dark elegant background #090D09 */
+    --foreground: 0 0% 98%; /* Pure white text */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Brand palette */
+    --brand-pink: 335 100% 69%; /* #FF62B1 */
+    --brand-dark-pink: 325 48% 41%; /* #842957 */
+    --brand-black: 120 22% 3%; /* #090D09 */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Component colors */
+    --card: 120 22% 4%;
+    --card-foreground: 0 0% 98%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --popover: 120 22% 4%;
+    --popover-foreground: 0 0% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --primary: 335 100% 69%; /* Brand pink */
+    --primary-foreground: 120 22% 3%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --secondary: 325 48% 41%; /* Dark pink */
+    --secondary-foreground: 0 0% 98%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --muted: 120 22% 8%;
+    --muted-foreground: 0 0% 70%;
+
+    --accent: 335 100% 69%;
+    --accent-foreground: 120 22% 3%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 120 22% 15%;
+    --input: 120 22% 8%;
+    --ring: 335 100% 69%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Custom design tokens */
+    --gradient-pink: linear-gradient(135deg, hsl(var(--brand-pink)), hsl(var(--brand-dark-pink)));
+    --gradient-dark: linear-gradient(180deg, hsl(var(--brand-black)), hsl(120 22% 5%));
+    --shadow-pink: 0 10px 30px -10px hsl(var(--brand-pink) / 0.3);
+    --shadow-elegant: 0 20px 40px -15px hsl(120 22% 0% / 0.4);
+    
+    /* Typography */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+    
+    --sidebar-background: 120 22% 4%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 335 100% 69%;
+    --sidebar-primary-foreground: 120 22% 3%;
+    --sidebar-accent: 120 22% 8%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 120 22% 15%;
+    --sidebar-ring: 335 100% 69%;
   }
 
   .dark {
@@ -101,5 +109,89 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+@layer components {
+  /* Hero button styles */
+  .btn-hero {
+    @apply bg-primary text-primary-foreground hover:opacity-90 transition-all duration-300;
+    box-shadow: var(--shadow-pink);
+    border-radius: 50px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  
+  /* Service card styles */
+  .service-card {
+    @apply bg-card border-2 border-primary/20 rounded-3xl overflow-hidden;
+    box-shadow: var(--shadow-elegant);
+    transition: all 0.3s ease;
+  }
+  
+  .service-card:hover {
+    @apply border-primary/40 scale-105;
+    box-shadow: var(--shadow-pink);
+  }
+  
+  /* Testimonial card styles */
+  .testimonial-card {
+    @apply bg-primary text-primary-foreground rounded-2xl p-6 mb-4;
+    box-shadow: var(--shadow-pink);
+  }
+  
+  /* Certificate card styles */
+  .certificate-card {
+    @apply bg-card border border-primary/30 rounded-2xl overflow-hidden;
+    box-shadow: var(--shadow-elegant);
+    transition: all 0.3s ease;
+  }
+  
+  .certificate-card:hover {
+    @apply scale-105;
+    box-shadow: var(--shadow-pink);
+  }
+  
+  /* Gradient text */
+  .gradient-text {
+    background: var(--gradient-pink);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Floating animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  /* Scroll animations */
+  @keyframes slideUp {
+    from { transform: translateY(100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  @keyframes slideDown {
+    from { transform: translateY(-100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 1s ease-out;
+  }
+  
+  .animate-slide-down {
+    animation: slideDown 1s ease-out;
   }
 }
