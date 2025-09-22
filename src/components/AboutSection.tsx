@@ -2,6 +2,8 @@ import yanaPortrait from '@/assets/yana-portrait.jpg';
 
 const AboutSection = () => {
 
+  const circularText = Array.from({ length: 12 }, () => 'ЯНА ПИЛИТ').join(' • ');
+
   const infoHighlights = [
     (
       <>
@@ -62,6 +64,29 @@ const AboutSection = () => {
               <div className="absolute -left-10 top-4 hidden h-[24rem] w-[24rem] rounded-full border border-[rgba(255,98,177,0.45)] lg:block" />
               <div className="absolute inset-[-18%] rounded-full bg-[radial-gradient(circle_at_top_left,_rgba(255,98,177,0.35),_transparent_65%)]" />
 
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+                <svg
+                  className="h-[128%] w-[128%]"
+                  viewBox="0 0 100 100"
+                  aria-hidden="true"
+                >
+                  <defs>
+                    <path
+                      id="about-circular-text-path"
+                      d="M 50,50 m -44,0 a 44,44 0 1,1 88,0 a 44,44 0 1,1 -88,0"
+                    />
+                  </defs>
+                  <text
+                    className="fill-[rgba(255,98,177,0.72)] font-semibold"
+                    style={{ letterSpacing: '0.38em' }}
+                  >
+                    <textPath xlinkHref="#about-circular-text-path" startOffset="50%">
+                      {circularText}
+                    </textPath>
+                  </text>
+                </svg>
+              </div>
+
               <div className="relative h-full w-full overflow-hidden rounded-full border-[6px] border-[rgba(255,98,177,0.85)] bg-[#0b050d] shadow-[0_45px_90px_-35px_rgba(255,98,177,0.75)]">
                 <img
                   src={yanaPortrait}
@@ -75,9 +100,6 @@ const AboutSection = () => {
 
           <div className="order-1 space-y-12 text-left lg:order-2">
             <div className="space-y-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.55em] text-[rgba(255,98,177,0.75)]">
-                ОБО МНЕ
-              </p>
               <h2 className="font-heading text-4xl font-bold uppercase text-foreground sm:text-5xl lg:text-6xl xl:text-7xl">
                 МЕНЯ ЗОВУТ <span className="text-[#FF62B1]">ЯНА</span>
               </h2>
