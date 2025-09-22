@@ -5,7 +5,7 @@ const AboutSection = () => {
   const rawId = useId();
   const circlePathId = `about-circle-${rawId.replace(/:/g, '')}`;
 
-  const infoBlocks = [
+  const infoHighlights = [
     (
       <>
         <span className="font-semibold text-[#FF62B1]">
@@ -103,15 +103,26 @@ const AboutSection = () => {
               </h2>
             </div>
 
-            <div className="space-y-10">
-              {infoBlocks.map((content, index) => (
-                <div key={index} className="space-y-6">
-                  <div className="relative overflow-hidden rounded-none border border-[rgba(255,98,177,0.65)] bg-[rgba(12,3,12,0.7)] px-8 py-6 text-lg font-medium uppercase leading-relaxed text-foreground shadow-[0_30px_90px_-40px_rgba(255,98,177,0.7)] backdrop-blur-sm sm:text-xl">
-                    <span className="block tracking-[0.08em]">{content}</span>
+            <div className="flex justify-start">
+              <div className="relative w-full max-w-[34rem]">
+                <div
+                  className="pointer-events-none absolute -inset-6 hidden rounded-[3rem] border border-[rgba(255,98,177,0.35)] sm:block"
+                  aria-hidden="true"
+                />
+                <div
+                  className="pointer-events-none absolute -inset-12 hidden rounded-[3rem] border border-[rgba(255,98,177,0.18)] lg:block"
+                  aria-hidden="true"
+                />
+                <div className="relative min-h-[28rem] overflow-hidden rounded-[3rem] border-[3px] border-[rgba(255,98,177,0.85)] bg-[rgba(12,3,12,0.78)] px-8 py-10 text-lg font-medium uppercase leading-relaxed text-foreground shadow-[0_35px_90px_-45px_rgba(255,98,177,0.75)] backdrop-blur-sm sm:min-h-[32rem] sm:px-12 sm:py-14 sm:text-xl">
+                  <div className="space-y-6 tracking-[0.08em]">
+                    {infoHighlights.map((content, index) => (
+                      <p key={index} className="text-left">
+                        {content}
+                      </p>
+                    ))}
                   </div>
-                  {index < infoBlocks.length - 1 && <div className="h-[3px] w-full bg-[#FF62B1]" />}
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </div>
