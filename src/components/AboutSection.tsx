@@ -1,9 +1,6 @@
-import { useId } from 'react';
 import yanaPortrait from '@/assets/yana-portrait.jpg';
 
 const AboutSection = () => {
-  const rawId = useId();
-  const circlePathId = `about-circle-${rawId.replace(/:/g, '')}`;
 
   const infoHighlights = [
     (
@@ -73,23 +70,6 @@ const AboutSection = () => {
                 />
               </div>
 
-              <svg
-                className="pointer-events-none absolute inset-[-18%] h-[136%] w-[136%]"
-                viewBox="0 0 400 400"
-                aria-hidden="true"
-              >
-                <defs>
-                  <path
-                    id={circlePathId}
-                    d="M200,200 m-170,0 a170,170 0 1,1 340,0 a170,170 0 1,1 -340,0"
-                  />
-                </defs>
-                <text className="font-heading text-[18px] uppercase tracking-[0.55em]" style={{ fill: 'rgba(255, 98, 177, 0.85)' }}>
-                  <textPath href={`#${circlePathId}`} startOffset="50%" textAnchor="middle">
-                    ЯНА ПИЛИТ • МАСТЕР МАНИКЮРА • НОГТЕВОЙ СЕРВИС • ЯНА ПИЛИТ •
-                  </textPath>
-                </text>
-              </svg>
             </div>
           </div>
 
@@ -103,7 +83,7 @@ const AboutSection = () => {
               </h2>
             </div>
 
-            <div className="flex justify-start">
+            <div className="flex justify-center">
               <div className="relative w-full max-w-[34rem]">
                 <div
                   className="pointer-events-none absolute -inset-6 hidden rounded-[3rem] border border-[rgba(255,98,177,0.35)] sm:block"
