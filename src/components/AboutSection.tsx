@@ -1,14 +1,6 @@
 import yanaPortrait from '@/assets/yana-portrait.jpg';
 
 const AboutSection = () => {
-  const circularSegments = [
-    'ЯНА ПИЛИТ',
-    'МАСТЕР МАНИКЮРА',
-    'НОГТЕВОЙ СЕРВИС',
-  ];
-
-  const circularText = `${circularSegments.join(' • ')} • ${circularSegments.join(' • ')}`;
-
   const infoHighlights = [
     (
       <>
@@ -65,41 +57,6 @@ const AboutSection = () => {
                 className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_top_left,_rgba(255,98,177,0.3),_rgba(11,4,15,0)_68%)]"
                 aria-hidden="true"
               />
-
-              <svg
-                className="pointer-events-none absolute -inset-[24%] h-full w-full"
-                viewBox="0 0 400 400"
-                aria-hidden="true"
-              >
-                <defs>
-                  <path
-                    id="about-circular-text-path"
-                    d="M 200,200 m -178,0 a 178,178 0 1,1 356,0 a 178,178 0 1,1 -356,0"
-                  />
-                  <linearGradient id="about-ring-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="rgba(255,98,177,0.85)" />
-                    <stop offset="100%" stopColor="rgba(255,98,177,0.35)" />
-                  </linearGradient>
-                </defs>
-                <circle
-                  cx="200"
-                  cy="200"
-                  r="183"
-                  fill="none"
-                  stroke="url(#about-ring-gradient)"
-                  strokeWidth="3"
-                  opacity="0.9"
-                />
-                <text
-                  className="fill-[#FF62B1] font-semibold uppercase"
-                  textAnchor="middle"
-                  style={{ fontSize: '22px', letterSpacing: '0.28em' }}
-                >
-                  <textPath startOffset="50%" xlinkHref="#about-circular-text-path">
-                    {circularText}
-                  </textPath>
-                </text>
-              </svg>
 
               <div className="relative h-full w-full overflow-hidden rounded-full border-[6px] border-[#FF62B1] bg-[#0b050d] shadow-[0_45px_95px_-40px_rgba(255,98,177,0.85)]">
                 <img
