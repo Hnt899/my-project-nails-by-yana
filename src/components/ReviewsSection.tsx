@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 const highlightPoints = [
   {
     title: 'МОЯ МОТИВАЦИЯ',
@@ -75,6 +77,49 @@ const columnDirections: Array<'up' | 'down'> = ['up', 'down', 'up'];
 const columnDurations = ['26s', '32s', '28s'];
 
 const ReviewsSection = () => {
+  const headingRef = useRef<HTMLHeadingElement | null>(null);
+  const columnsRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const updateMaskOffset = () => {
+      if (!headingRef.current || !columnsRef.current) {
+        return;
+      }
+
+      const headingRect = headingRef.current.getBoundingClientRect();
+      const columnsRect = columnsRef.current.getBoundingClientRect();
+      const offset = Math.max(0, headingRect.bottom - columnsRect.top);
+      const cappedOffset = Math.min(offset, 480);
+
+      columnsRef.current.style.setProperty('--review-mask-top', `${cappedOffset}px`);
+    };
+
+    updateMaskOffset();
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', updateMaskOffset);
+    }
+
+    let resizeObserver: ResizeObserver | undefined;
+
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(() => updateMaskOffset());
+      if (headingRef.current) {
+        resizeObserver.observe(headingRef.current);
+      }
+      if (columnsRef.current) {
+        resizeObserver.observe(columnsRef.current);
+      }
+    }
+
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', updateMaskOffset);
+      }
+      resizeObserver?.disconnect();
+    };
+  }, []);
+
   return (
     <section id="reviews" className="bg-background py-24 overflow-hidden">
       <div className="container mx-auto px-4">
@@ -85,7 +130,10 @@ const ReviewsSection = () => {
               <span className="text-xs font-semibold uppercase tracking-[0.4em] text-primary/80">
                 ЖИВЫЕ ЭМОЦИИ
               </span>
-              <h2 className="font-heading text-4xl lg:text-6xl font-bold gradient-text">
+              <h2
+                ref={headingRef}
+                className="font-heading text-4xl lg:text-6xl font-bold gradient-text"
+              >
                 ОТЗЫВЫ
               </h2>
               <p className="text-lg leading-relaxed text-muted-foreground">
@@ -110,7 +158,10 @@ const ReviewsSection = () => {
           </div>
 
           {/* Right side - Reviews columns */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 xl:gap-8 self-end">
+          <div
+            ref={columnsRef}
+            className="review-columns grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 xl:gap-8 self-end"
+          >
             {reviewColumns.map((column, columnIndex) => {
               const direction = columnDirections[columnIndex] ?? 'up';
               const duration = columnDurations[columnIndex] ?? '28s';
