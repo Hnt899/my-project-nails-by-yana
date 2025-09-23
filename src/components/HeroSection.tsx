@@ -1,14 +1,9 @@
-import { Button } from '@/components/ui/button';
-import pantherHero from '@/assets/panther-hero.jpg';
+import { Button } from "@/components/ui/button";
+import pantherHero from "@/assets/panther-hero.jpg";
+
+const BOOKING_URL = "https://dikidi.ru/1679582"; // <-- замени на свою ссылку
 
 const HeroSection = () => {
-  const scrollToContact = () => {
-    const element = document.getElementById('contact');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <section className="relative isolate flex min-h-screen items-center overflow-hidden bg-[#050505]">
       <div className="absolute inset-0">
@@ -44,7 +39,7 @@ const HeroSection = () => {
             </h1>
             <div className="space-y-2 text-lg sm:text-xl font-medium text-foreground">
               <p>
-                ЕСЛИ ВЫ ИСКАЛИ{' '}
+                ЕСЛИ ВЫ ИСКАЛИ{" "}
                 <span className="text-primary font-semibold">ЛУЧШЕГО МАСТЕРА</span>
               </p>
               <p>ПО УХОДУ ЗА СВОИМИ НОГТЯМИ В</p>
@@ -54,11 +49,15 @@ const HeroSection = () => {
               </p>
               <p>ТО ВЫ ЕГО НАШЛИ</p>
             </div>
+
+            {/* Кнопка ведёт на внешний сайт */}
             <Button
-              onClick={scrollToContact}
+              asChild
               className="btn-hero text-lg sm:text-xl px-10 sm:px-12 py-5 sm:py-6 mt-4"
             >
-              ЗАПИСАТЬСЯ
+              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                ЗАПИСАТЬСЯ
+              </a>
             </Button>
           </div>
         </div>
@@ -77,3 +76,4 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+
