@@ -142,7 +142,7 @@
   
   /* Testimonial card styles */
   .testimonial-card {
-    @apply bg-primary text-primary-foreground rounded-2xl p-6 mb-4;
+    @apply relative overflow-hidden rounded-[28px] border border-primary/40 bg-primary text-primary-foreground p-6;
     box-shadow: var(--shadow-pink);
   }
   
