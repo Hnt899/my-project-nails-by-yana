@@ -78,9 +78,9 @@ const ReviewsSection = () => {
   return (
     <section id="reviews" className="bg-background py-24 overflow-hidden">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 xl:grid-cols-[0.9fr_1.1fr] gap-16">
+        <div className="grid grid-cols-1 xl:grid-cols-[0.9fr_1.1fr] gap-16 xl:items-end">
           {/* Left side - Header text */}
-          <div className="space-y-10">
+          <div className="space-y-10 self-start">
             <div className="space-y-4 max-w-xl">
               <span className="text-xs font-semibold uppercase tracking-[0.4em] text-primary/80">
                 ЖИВЫЕ ЭМОЦИИ
@@ -110,7 +110,7 @@ const ReviewsSection = () => {
           </div>
 
           {/* Right side - Reviews columns */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 xl:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 xl:gap-8 self-end">
             {reviewColumns.map((column, columnIndex) => {
               const direction = columnDirections[columnIndex] ?? 'up';
               const duration = columnDurations[columnIndex] ?? '28s';
