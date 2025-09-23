@@ -71,7 +71,6 @@ const reviewColumns = [
   reviews.slice(6, 9)
 ];
 
-const columnOffsets = ['', 'md:mt-12 xl:mt-16', 'md:mt-20 xl:mt-28'];
 const columnDirections: Array<'up' | 'down'> = ['up', 'down', 'up'];
 const columnDurations = ['26s', '32s', '28s'];
 
@@ -120,7 +119,7 @@ const ReviewsSection = () => {
               return (
                 <div
                   key={`column-${columnIndex}`}
-                  className={`review-column h-[520px] sm:h-[560px] lg:h-[620px] xl:h-[680px] ${columnOffsets[columnIndex]}`}
+                  className="review-column h-[520px] sm:h-[560px] lg:h-[620px] xl:h-[680px]"
                 >
                   <div
                     className={`flex flex-col gap-6 review-marquee ${direction === 'down' ? 'reverse' : ''}`}
