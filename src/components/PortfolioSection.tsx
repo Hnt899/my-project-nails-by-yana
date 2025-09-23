@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Volume2, VolumeX } from "lucide-react";
 
-/* ===================== ВИДЕО: 6 шт. ===================== */
-/* Положи файлы сюда: src/assets/video/portfolio/
-   Названия: video1.mp4 … video6.mp4 (или .webm — замени расширение ниже) */
 import video1 from "@/assets/video/portfolio/video1.mp4";
 import video2 from "@/assets/video/portfolio/video2.mp4";
 import video3 from "@/assets/video/portfolio/video3.mp4";
@@ -11,10 +8,6 @@ import video4 from "@/assets/video/portfolio/video4.mp4";
 import video5 from "@/assets/video/portfolio/video5.mp4";
 import video6 from "@/assets/video/portfolio/video6.mp4";
 
-/* ====== ФОТО ДЛЯ 4 МАЛЫХ БЛОКОВ: по 7 в каждом (итого 28) ======
-   Положи файлы сюда: src/assets/portfolio/
-   Имена: blok1foto1.jpg … blok4foto7.jpg
-   (Если у тебя .png/.webp — поменяй расширения в импортах) */
 import blok1foto1 from "@/assets/portfolio/blok1foto1.jpg";
 import blok1foto2 from "@/assets/portfolio/blok1foto2.jpg";
 import blok1foto3 from "@/assets/portfolio/blok1foto3.jpg";
@@ -47,11 +40,9 @@ import blok4foto5 from "@/assets/portfolio/blok4foto5.jpg";
 import blok4foto6 from "@/assets/portfolio/blok4foto6.jpg";
 import blok4foto7 from "@/assets/portfolio/blok4foto7.jpg";
 
-/* ====================== Типы ====================== */
 type PortfolioShot = { src: string; alt: string };
 type PortfolioCategory = { key: string; title: string; shots: PortfolioShot[] };
 
-/* ====================== Данные ====================== */
 const portfolioCategories: PortfolioCategory[] = [
   {
     key: "single",
@@ -109,9 +100,7 @@ const portfolioCategories: PortfolioCategory[] = [
 
 const videos = [video1, video2, video3, video4, video5, video6];
 
-/* ====================== Компонент ====================== */
 const PortfolioSection: React.FC = () => {
-  /* Малые карточки: индекс активного фото в каждой из 4 категорий */
   const [activeShots, setActiveShots] = useState<number[]>(
     () => portfolioCategories.map(() => 0)
   );
@@ -132,7 +121,6 @@ const PortfolioSection: React.FC = () => {
       return next;
     });
 
-  /* Большой видео-блок слева: карусель 6 видео + mute */
   const [videoIndex, setVideoIndex] = useState(0);
   const [muted, setMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -156,61 +144,9 @@ const PortfolioSection: React.FC = () => {
     <section id="portfolio" className="bg-[#080808] py-24">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid items-stretch gap-12 lg:grid-cols-[minmax(380px,1.02fr)_minmax(420px,1.18fr)] lg:gap-16 xl:grid-cols-[minmax(420px,1.05fr)_minmax(500px,1.25fr)] xl:gap-20">
-          {/* Левый большой блок: видеокарусель */}
-          <div className="group relative flex w-full items-stretch justify-center lg:h-full">
-            <div className="relative w-full min-h-[520px] overflow-hidden rounded-[48px] border-[3px] border-primary/70 bg-black/70 shadow-[0_0_70px_rgba(255,92,158,0.3)] lg:h-full lg:min-h-0">
-              <video
-                ref={videoRef}
-                key={videoIndex}
-                src={videos[videoIndex]}
-                className="absolute inset-0 h-full w-full object-cover"
-                playsInline
-                autoPlay
-                controls
-                muted={muted}
-                preload="metadata"
-              />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
-              {/* Кнопки по ЦЕНТРУ (фиксированы по вертикали) */}
-              <div className="absolute left-6 right-6 top-1/2 z-10 -translate-y-1/2 flex items-center justify-between">
-                <button
-                  type="button"
-                  onClick={prevVideo}
-                  className="flex h-12 w-12 items-center justify-center rounded-full border border-white/40 bg-black/70 text-white shadow-[0_0_24px_rgba(255,92,158,0.35)] transition-colors duration-300 hover:bg-primary hover:text-primary-foreground"
-                  aria-label="Предыдущее видео"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={nextVideo}
-                  className="flex h-12 w-12 items-center justify-center rounded-full border border-white/40 bg-black/70 text-white shadow-[0_0_24px_rgba(255,92,158,0.35)] transition-colors duration-300 hover:bg-primary hover:text-primary-foreground"
-                  aria-label="Следующее видео"
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </button>
-              </div>
-
-              {/* Звук: вкл/выкл (вверху справа) */}
-              <button
-                type="button"
-                onClick={() => setMuted((m) => !m)}
-                className="absolute top-4 right-4 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/40 bg-black/70 text-white shadow-[0_0_20px_rgba(255,92,158,0.35)] transition-colors duration-300 hover:bg-primary hover:text-primary-foreground"
-                aria-label={muted ? "Включить звук" : "Выключить звук"}
-                title={muted ? "Включить звук" : "Выключить звук"}
-              >
-                {muted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
-              </button>
-
-              <span className="absolute bottom-8 left-8 text-left text-base font-black uppercase tracking-[0.4em] text-[#ff2f5f] drop-shadow-[0_0_18px_rgba(255,47,95,0.6)] sm:text-lg lg:text-xl">
-                ВИДЕО-ОТЗЫВЫ
-              </span>
-            </div>
-          </div>
-
-          {/* Правая колонка: заголовок + 4 маленьких блока */}
-          <div className="flex w-full flex-col items-end text-right">
+          {/* ПРАВАЯ КОЛОНКА (теперь первой на мобиле) */}
+          <div className="order-1 lg:order-2 flex w-full flex-col items-end text-right">
             <h2 className="font-heading text-4xl font-bold uppercase tracking-[0.2em] text-primary sm:text-5xl lg:text-6xl">
               ПОРТФОЛИО
             </h2>
@@ -221,7 +157,6 @@ const PortfolioSection: React.FC = () => {
             <div className="mt-14 grid w-full gap-7 sm:grid-cols-2">
               {portfolioCategories.map((category, index) => {
                 const current = category.shots[activeShots[index]] ?? category.shots[0];
-
                 return (
                   <div
                     key={category.key}
@@ -236,14 +171,12 @@ const PortfolioSection: React.FC = () => {
                       <div className="absolute inset-0 bg-gradient-to-br from-black/25 via-transparent to-black/40" />
                     </div>
 
-                    {/* Заголовок карточки */}
                     <div className="absolute inset-x-0 top-0 flex items-center justify-between bg-gradient-to-b from-black/75 via-black/20 to-transparent px-6 py-4">
                       <span className="text-left text-sm font-black uppercase tracking-[0.28em] text-white sm:text-base">
                         {category.title}
                       </span>
                     </div>
 
-                    {/* КНОПКИ В ЦЕНТРЕ — фиксированы по вертикали */}
                     <div className="pointer-events-none absolute left-3 right-3 top-1/2 -translate-y-1/2 sm:left-4 sm:right-4 flex items-center justify-between">
                       <button
                         type="button"
@@ -267,7 +200,58 @@ const PortfolioSection: React.FC = () => {
               })}
             </div>
           </div>
-          {/* /Правая колонка */}
+
+          {/* ЛЕВЫЙ БОЛЬШОЙ ВИДЕО-БЛОК (вторым на мобиле) */}
+          <div className="order-2 lg:order-1 group relative flex w-full items-stretch justify-center lg:h-full">
+            <div className="relative w-full min-h-[520px] overflow-hidden rounded-[48px] border-[3px] border-primary/70 bg-black/70 shadow-[0_0_70px_rgba(255,92,158,0.3)] lg:h-full lg:min-h-0">
+              <video
+                ref={videoRef}
+                key={videoIndex}
+                src={videos[videoIndex]}
+                className="absolute inset-0 h-full w-full object-cover"
+                playsInline
+                autoPlay
+                controls
+                muted={muted}
+                preload="metadata"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+
+              <div className="absolute left-6 right-6 top-1/2 z-10 -translate-y-1/2 flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={prevVideo}
+                  className="flex h-12 w-12 items-center justify-center rounded-full border border-white/40 bg-black/70 text-white shadow-[0_0_24px_rgba(255,92,158,0.35)] transition-colors duration-300 hover:bg-primary hover:text-primary-foreground"
+                  aria-label="Предыдущее видео"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={nextVideo}
+                  className="flex h-12 w-12 items-center justify-center rounded-full border border-white/40 bg-black/70 text-white shadow-[0_0_24px_rgba(255,92,158,0.35)] transition-colors duration-300 hover:bg-primary hover:text-primary-foreground"
+                  aria-label="Следующее видео"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setMuted((m) => !m)}
+                className="absolute top-4 right-4 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/40 bg-black/70 text-white shadow-[0_0_20px_rgba(255,92,158,0.35)] transition-colors duration-300 hover:bg-primary hover:text-primary-foreground"
+                aria-label={muted ? "Включить звук" : "Выключить звук"}
+                title={muted ? "Включить звук" : "Выключить звук"}
+              >
+                {muted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
+              </button>
+
+              <span className="absolute bottom-8 left-8 text-left text-base font-black uppercase tracking-[0.4em] text-[#ff2f5f] drop-shadow-[0_0_18px_rgba(255,47,95,0.6)] sm:text-lg lg:text-xl">
+                ВИДЕО-ОТЗЫВЫ
+              </span>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -275,3 +259,4 @@ const PortfolioSection: React.FC = () => {
 };
 
 export default PortfolioSection;
+
