@@ -1,21 +1,21 @@
-import certificate1 from '@/assets/certificate-1.jpg';
+import certificate1 from "@/assets/certificate-1.jpg";
 
 const certificates = [
-  { name: 'НАЗВАНИЕ 1', image: certificate1 },
-  { name: 'НАЗВАНИЕ 2', image: certificate1 },
-  { name: 'НАЗВАНИЕ 3', image: certificate1 },
-  { name: 'НАЗВАНИЕ 4', image: certificate1 },
-  { name: 'НАЗВАНИЕ 5', image: certificate1 },
-  { name: 'НАЗВАНИЕ 6', image: certificate1 },
-  { name: 'НАЗВАНИЕ 7', image: certificate1 },
-  { name: 'НАЗВАНИЕ 8', image: certificate1 },
+  { name: "НАЗВАНИЕ 1", image: certificate1 },
+  { name: "НАЗВАНИЕ 2", image: certificate1 },
+  { name: "НАЗВАНИЕ 3", image: certificate1 },
+  { name: "НАЗВАНИЕ 4", image: certificate1 },
+  { name: "НАЗВАНИЕ 5", image: certificate1 },
+  { name: "НАЗВАНИЕ 6", image: certificate1 },
+  { name: "НАЗВАНИЕ 7", image: certificate1 },
+  { name: "НАЗВАНИЕ 8", image: certificate1 },
 ];
 
 const CertificatesSection = () => {
   return (
     <section id="certificates" className="py-24 bg-background">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col-reverse gap-12 lg:grid lg:grid-cols-[minmax(0,1fr)_320px] xl:grid-cols-[minmax(0,1fr)_360px] lg:items-center xl:gap-20">
+        <div className="flex flex-col-reverse gap-12 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(320px,440px)] xl:grid-cols-[minmax(0,1fr)_minmax(360px,500px)] lg:items-start lg:gap-x-24 xl:gap-x-28">
           {/* Certificates grid */}
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4 xl:gap-8">
             {certificates.map((cert) => (
@@ -40,18 +40,19 @@ const CertificatesSection = () => {
           </div>
 
           {/* Right side - Header text */}
-          <div className="flex flex-col items-center gap-8 text-center lg:items-end lg:text-right">
+          <div className="flex flex-col items-center gap-8 text-center lg:items-end lg:text-right lg:self-start lg:max-w-[440px] xl:max-w-[500px]">
             <div className="space-y-4">
-              <span className="inline-flex items-center gap-2 rounded-full border border-primary/40 px-4 py-1 text-[11px] font-medium uppercase tracking-[0.5em] text-muted-foreground/90">
-                <span className="h-2 w-2 rounded-full bg-primary" />достижения
+              <span className="inline-flex items-center gap-2 rounded-full border border-primary/40 px-4 py-1 text-[11px] font-medium uppercase tracking-[0.45em] text-muted-foreground/90">
+                <span className="h-2 w-2 rounded-full bg-primary" />
+                достижения
               </span>
-              <h2 className="font-heading text-4xl font-bold uppercase tracking-[0.25em] text-foreground lg:text-5xl xl:text-6xl">
+              <h2 className="font-heading text-4xl font-bold uppercase tracking-[0.14em] text-foreground lg:text-[2.75rem] xl:text-[3rem] xl:tracking-[0.18em]">
                 СЕРТИФИКАТЫ
               </h2>
             </div>
-            <p className="max-w-sm text-sm font-medium leading-relaxed tracking-[0.25em] text-muted-foreground uppercase lg:max-w-none lg:text-base">
+            <p className="max-w-sm text-sm font-medium leading-relaxed tracking-[0.2em] text-muted-foreground uppercase lg:max-w-none lg:text-base xl:tracking-[0.22em]">
               <span className="text-foreground">Я ГОРЖУСЬ КАЖДЫМ ИЗ ЭТИХ СЕРТИФИКАТОВ</span>
-              {' — ОНИ НАПОМИНАЮТ МНЕ О ПУТИ, КОТОРЫЙ Я ПРОШЛА, ЧТОБЫ '}
+              {" — ОНИ НАПОМИНАЮТ МНЕ О ПУТИ, КОТОРЫЙ Я ПРОШЛА, ЧТОБЫ "}
               <span className="text-primary">ДАВАТЬ ВАМ ТОЛЬКО ЛУЧШЕЕ.</span>
             </p>
           </div>
@@ -62,3 +63,4 @@ const CertificatesSection = () => {
 };
 
 export default CertificatesSection;
+
