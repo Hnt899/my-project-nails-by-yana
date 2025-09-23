@@ -72,8 +72,8 @@ const reviewColumns = [
 ];
 
 const columnOffsets = ['', 'md:mt-12 xl:mt-16', 'md:mt-20 xl:mt-28'];
-
-const columnAnimations = ['animate-slide-up', 'animate-slide-down', 'animate-slide-down'];
+const columnDirections: Array<'up' | 'down'> = ['up', 'down', 'up'];
+const columnDurations = ['26s', '32s', '28s'];
 
 const ReviewsSection = () => {
   return (
@@ -112,24 +112,43 @@ const ReviewsSection = () => {
 
           {/* Right side - Reviews columns */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 xl:gap-8">
-            {reviewColumns.map((column, columnIndex) => (
-              <div
-                key={`column-${columnIndex}`}
-                className={`flex flex-col gap-6 ${columnAnimations[columnIndex]} ${columnOffsets[columnIndex]}`}
-              >
-                {column.map((review) => (
-                  <div key={review.code} className="testimonial-card">
-                    <div className="flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.35em] text-primary-foreground/70">
-                      <span>{review.code}</span>
-                      <span>{review.name}</span>
-                    </div>
-                    <p className="mt-5 text-sm leading-relaxed">
-                      {review.text}
-                    </p>
+            {reviewColumns.map((column, columnIndex) => {
+              const direction = columnDirections[columnIndex] ?? 'up';
+              const duration = columnDurations[columnIndex] ?? '28s';
+              const repeatedColumn = [...column, ...column];
+
+              return (
+                <div
+                  key={`column-${columnIndex}`}
+                  className={`relative overflow-hidden h-[520px] sm:h-[560px] lg:h-[620px] xl:h-[680px] ${columnOffsets[columnIndex]}`}
+                >
+                  <div
+                    className={`flex flex-col gap-6 review-marquee ${direction === 'down' ? 'reverse' : ''}`}
+                    style={{ animationDuration: duration }}
+                  >
+                    {repeatedColumn.map((review, reviewIndex) => {
+                      const isDuplicate = reviewIndex >= column.length;
+
+                      return (
+                        <div
+                          key={`${review.code}-${reviewIndex}`}
+                          className="testimonial-card"
+                          aria-hidden={isDuplicate}
+                        >
+                          <div className="flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.35em] text-primary-foreground/70">
+                            <span>{review.code}</span>
+                            <span>{review.name}</span>
+                          </div>
+                          <p className="mt-5 text-sm leading-relaxed">
+                            {review.text}
+                          </p>
+                        </div>
+                      );
+                    })}
                   </div>
-                ))}
-              </div>
-            ))}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

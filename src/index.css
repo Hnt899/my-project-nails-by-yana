@@ -194,4 +194,30 @@
   .animate-slide-down {
     animation: slideDown 1s ease-out;
   }
+
+  /* Reviews marquee animation */
+  .review-marquee {
+    animation: review-marquee 28s linear infinite;
+    will-change: transform;
+  }
+
+  .review-marquee.reverse {
+    animation-direction: reverse;
+  }
+
+  @keyframes review-marquee {
+    0% {
+      transform: translateY(0%);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .review-marquee {
+      animation: none !important;
+      transform: none !important;
+    }
+  }
 }
