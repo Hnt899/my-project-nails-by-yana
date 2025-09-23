@@ -1,110 +1,177 @@
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
+
 import nails1 from '@/assets/nails-1.jpg';
 import nails2 from '@/assets/nails-2.jpg';
 
-const PortfolioSection = () => {
-  const [currentImage, setCurrentImage] = useState(0);
-  
-  const portfolioImages = [
-    { src: nails1, alt: 'Дизайн ногтей 1' },
-    { src: nails2, alt: 'Дизайн ногтей 2' },
-    { src: nails1, alt: 'Дизайн ногтей 3' },
-    { src: nails2, alt: 'Дизайн ногтей 4' },
-  ];
+type PortfolioShot = {
+  src: string;
+  alt: string;
+};
 
-  const nextImage = () => {
-    setCurrentImage((prev) => (prev + 1) % portfolioImages.length);
+type PortfolioCategory = {
+  key: string;
+  title: string;
+  shots: PortfolioShot[];
+};
+
+const portfolioCategories: PortfolioCategory[] = [
+  {
+    key: 'single-color',
+    title: 'SINGLE COLOR',
+    shots: [
+      { src: nails1, alt: 'Глянцевый однотонный маникюр с нюдовым покрытием' },
+      { src: nails2, alt: 'Однотонный маникюр с мягким голубым переливом' },
+      { src: nails1, alt: 'Минималистичный однотонный маникюр с блеском' },
+    ],
+  },
+  {
+    key: 'french',
+    title: 'FRENCH MANICURE',
+    shots: [
+      { src: nails2, alt: 'Классический французский маникюр с акцентами' },
+      { src: nails1, alt: 'Французский маникюр с прозрачной базой' },
+      { src: nails2, alt: 'Современный френч в холодной палитре' },
+    ],
+  },
+  {
+    key: 'extensions',
+    title: 'EXTENSIONS',
+    shots: [
+      { src: nails1, alt: 'Наращенные ногти с глянцевым покрытием' },
+      { src: nails2, alt: 'Миндалевидные наращенные ногти с дизайном' },
+      { src: nails1, alt: 'Длина ballerina с нюдовым наращиванием' },
+    ],
+  },
+  {
+    key: 'custom',
+    title: 'CUSTOM MANICURE',
+    shots: [
+      { src: nails2, alt: 'Индивидуальный дизайн с блестящим декором' },
+      { src: nails1, alt: 'Авторский маникюр с золотой фольгой' },
+      { src: nails2, alt: 'Контрастный кастомный маникюр с акцентом' },
+    ],
+  },
+];
+
+const PortfolioSection = () => {
+  const [activeShots, setActiveShots] = useState<number[]>(() =>
+    portfolioCategories.map(() => 0),
+  );
+
+  const showPreviousShot = (categoryIndex: number) => {
+    setActiveShots((prev) => {
+      const next = [...prev];
+      const shots = portfolioCategories[categoryIndex]?.shots ?? [];
+      const total = shots.length;
+
+      if (total === 0) {
+        next[categoryIndex] = 0;
+        return next;
+      }
+
+      next[categoryIndex] = (next[categoryIndex] - 1 + total) % total;
+      return next;
+    });
   };
 
-  const prevImage = () => {
-    setCurrentImage((prev) => (prev - 1 + portfolioImages.length) % portfolioImages.length);
+  const showNextShot = (categoryIndex: number) => {
+    setActiveShots((prev) => {
+      const next = [...prev];
+      const shots = portfolioCategories[categoryIndex]?.shots ?? [];
+      const total = shots.length;
+
+      if (total === 0) {
+        next[categoryIndex] = 0;
+        return next;
+      }
+
+      next[categoryIndex] = (next[categoryIndex] + 1) % total;
+      return next;
+    });
   };
 
   return (
-    <section id="portfolio" className="py-20 bg-background">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Left side - Video placeholder */}
-          <div className="order-2 lg:order-1">
-            <div className="relative aspect-[4/5] bg-gradient-to-br from-primary/20 to-secondary/20 rounded-3xl overflow-hidden group cursor-pointer">
-              <img 
-                src={nails1} 
-                alt="Видео портфолио" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+    <section id="portfolio" className="bg-[#080808] py-24">
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="grid items-stretch gap-12 lg:grid-cols-[minmax(380px,1.02fr)_minmax(420px,1.18fr)] lg:gap-16 xl:grid-cols-[minmax(420px,1.05fr)_minmax(500px,1.25fr)] xl:gap-20">
+          <div className="group relative flex w-full items-stretch justify-center lg:h-full">
+            <div className="relative w-full min-h-[520px] overflow-hidden rounded-[48px] border-[3px] border-primary/70 bg-black/70 shadow-[0_0_70px_rgba(255,92,158,0.3)] lg:h-full lg:min-h-0">
+              <img
+                src={nails2}
+                alt="Видео отзыв о маникюре"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
               />
-              <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mb-4 mx-auto">
-                    <svg className="w-8 h-8 text-primary-foreground ml-1" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
-                  </div>
-                  <p className="text-white font-bold text-xl">ВИДЕО ПОРТФОЛИО</p>
-                </div>
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+              <button
+                type="button"
+                className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/70 text-white shadow-[0_0_30px_rgba(255,92,158,0.45)] backdrop-blur-sm transition-colors duration-300 hover:bg-primary hover:text-primary-foreground"
+              >
+                <Play className="h-6 w-6" />
+              </button>
+              <span className="absolute bottom-8 left-8 text-left text-base font-black uppercase tracking-[0.4em] text-[#ff2f5f] drop-shadow-[0_0_18px_rgba(255,47,95,0.6)] sm:text-lg lg:text-xl">
+                VIDEO REVIEW
+              </span>
             </div>
           </div>
 
-          {/* Right side - Text and portfolio grid */}
-          <div className="order-1 lg:order-2 space-y-8">
-            <div className="text-center lg:text-right">
-              <h2 className="font-heading text-4xl lg:text-6xl font-bold gradient-text mb-6">
-                ПОРТФОЛИО
-              </h2>
-              <p className="text-lg text-foreground max-w-md mx-auto lg:ml-auto">
-                <span className="text-primary font-semibold">МАНИКЮР</span> ЛЮБИМЫЙ <span className="text-primary font-semibold">ЖЕНСКИЙ СПОСОБ ВОССТАНОВЛЕНИЯ</span>
-                <br />
-                <span className="text-primary font-semibold">ДУШЕВНОГО РАВНОВЕСИЯ</span>
-              </p>
-            </div>
+          <div className="flex w-full flex-col items-end text-right">
+            <h2 className="font-heading text-4xl font-bold uppercase tracking-[0.2em] text-primary sm:text-5xl lg:text-6xl">
+              PORTFOLIO
+            </h2>
+            <p className="mt-4 max-w-md text-xs font-semibold tracking-[0.26em] text-primary/85 sm:text-sm">
+              manicure: a woman's favorite way to restore peace of mind.
+            </p>
 
-            {/* Portfolio grid with navigation */}
-            <div className="grid grid-cols-2 gap-4">
-              {portfolioImages.map((image, index) => (
-                <div 
-                  key={index}
-                  className={`relative aspect-square rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 ${
-                    index === currentImage ? 'ring-2 ring-primary scale-105' : 'hover:scale-102'
-                  }`}
-                  onClick={() => setCurrentImage(index)}
-                >
-                  <img 
-                    src={image.src} 
-                    alt={image.alt}
-                    className="w-full h-full object-cover"
-                  />
-                  
-                  {/* Navigation arrows on hover */}
-                  {index === currentImage && (
-                    <div className="absolute inset-0 bg-black/20 flex items-center justify-between p-2">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          prevImage();
-                        }}
-                        className="bg-white/20 hover:bg-white/30 text-white"
-                      >
-                        <ChevronLeft className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          nextImage();
-                        }}
-                        className="bg-white/20 hover:bg-white/30 text-white"
-                      >
-                        <ChevronRight className="h-4 w-4" />
-                      </Button>
+            <div className="mt-14 grid w-full gap-7 sm:grid-cols-2">
+              {portfolioCategories.map((category, index) => {
+                const shots = category.shots;
+                const currentIndex = activeShots[index] ?? 0;
+                const currentShot = shots[currentIndex] ?? shots[0];
+
+                return (
+                  <div
+                    key={category.key}
+                    className="group relative flex min-h-[220px] flex-col overflow-hidden rounded-[34px] border-[3px] border-primary/65 bg-black/70 shadow-[0_0_42px_rgba(255,92,158,0.26)] sm:min-h-[240px]"
+                  >
+                    <div className="relative flex-1 overflow-hidden">
+                      {currentShot ? (
+                        <img
+                          src={currentShot.src}
+                          alt={currentShot.alt}
+                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                        />
+                      ) : null}
+                      <div className="absolute inset-0 bg-gradient-to-br from-black/25 via-transparent to-black/40" />
                     </div>
-                  )}
-                </div>
-              ))}
+
+                    <div className="absolute inset-x-0 top-0 flex items-center justify-between bg-gradient-to-b from-black/75 via-black/20 to-transparent px-6 py-4">
+                      <span className="text-left text-sm font-black uppercase tracking-[0.28em] text-white sm:text-base">
+                        {category.title}
+                      </span>
+                    </div>
+
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-between px-6 pb-6">
+                      <button
+                        type="button"
+                        onClick={() => showPreviousShot(index)}
+                        className="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full border border-white/40 bg-black/70 text-white shadow-[0_0_24px_rgba(255,92,158,0.35)] transition-colors duration-300 hover:bg-primary hover:text-primary-foreground"
+                        aria-label={`Предыдущая работа категории ${category.title}`}
+                      >
+                        <ChevronLeft className="h-5 w-5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => showNextShot(index)}
+                        className="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full border border-white/40 bg-black/70 text-white shadow-[0_0_24px_rgba(255,92,158,0.35)] transition-colors duration-300 hover:bg-primary hover:text-primary-foreground"
+                        aria-label={`Следующая работа категории ${category.title}`}
+                      >
+                        <ChevronRight className="h-5 w-5" />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
