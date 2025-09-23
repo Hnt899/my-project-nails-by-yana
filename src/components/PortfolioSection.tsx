@@ -94,9 +94,9 @@ const PortfolioSection = () => {
   return (
     <section id="portfolio" className="bg-[#080808] py-24">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="grid items-start gap-12 lg:grid-cols-[minmax(400px,1.2fr)_minmax(380px,1fr)] lg:gap-16 xl:grid-cols-[minmax(460px,1.2fr)_minmax(420px,1fr)] xl:gap-20">
-          <div className="group relative flex w-full items-stretch justify-center">
-            <div className="relative w-full min-h-[560px] overflow-hidden rounded-[48px] border-[3px] border-primary/70 bg-black/70 shadow-[0_0_70px_rgba(255,92,158,0.3)]">
+        <div className="grid items-stretch gap-12 lg:grid-cols-[minmax(380px,1.02fr)_minmax(420px,1.18fr)] lg:gap-16 xl:grid-cols-[minmax(420px,1.05fr)_minmax(500px,1.25fr)] xl:gap-20">
+          <div className="group relative flex w-full items-stretch justify-center lg:h-full">
+            <div className="relative w-full min-h-[520px] overflow-hidden rounded-[48px] border-[3px] border-primary/70 bg-black/70 shadow-[0_0_70px_rgba(255,92,158,0.3)] lg:h-full lg:min-h-0">
               <img
                 src={nails2}
                 alt="Видео отзыв о маникюре"
