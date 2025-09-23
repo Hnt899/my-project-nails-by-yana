@@ -120,7 +120,7 @@ const ReviewsSection = () => {
               return (
                 <div
                   key={`column-${columnIndex}`}
-                  className={`relative overflow-hidden h-[520px] sm:h-[560px] lg:h-[620px] xl:h-[680px] ${columnOffsets[columnIndex]}`}
+                  className={`review-column h-[520px] sm:h-[560px] lg:h-[620px] xl:h-[680px] ${columnOffsets[columnIndex]}`}
                 >
                   <div
                     className={`flex flex-col gap-6 review-marquee ${direction === 'down' ? 'reverse' : ''}`}
