@@ -142,10 +142,45 @@
   
   /* Testimonial card styles */
   .testimonial-card {
-    @apply bg-primary text-primary-foreground rounded-2xl p-6 mb-4;
+    @apply relative overflow-hidden rounded-[28px] border border-primary/40 bg-primary text-primary-foreground p-6;
     box-shadow: var(--shadow-pink);
   }
-  
+
+  .review-columns {
+    --review-mask-top: 160px;
+  }
+
+  .review-column {
+    @apply relative overflow-hidden;
+  }
+
+  .review-column::before,
+  .review-column::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 72px;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .review-column::before {
+    top: 0;
+    height: clamp(96px, var(--review-mask-top, 160px), 360px);
+    background: linear-gradient(
+      to bottom,
+      hsl(var(--background)) 0%,
+      hsl(var(--background)) 60%,
+      transparent 100%
+    );
+  }
+
+  .review-column::after {
+    bottom: 0;
+    background: linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%);
+  }
+
   /* Certificate card styles */
   .certificate-card {
     @apply bg-card border border-primary/30 rounded-2xl overflow-hidden;
@@ -193,5 +228,31 @@
   
   .animate-slide-down {
     animation: slideDown 1s ease-out;
+  }
+
+  /* Reviews marquee animation */
+  .review-marquee {
+    animation: review-marquee 28s linear infinite;
+    will-change: transform;
+  }
+
+  .review-marquee.reverse {
+    animation-direction: reverse;
+  }
+
+  @keyframes review-marquee {
+    0% {
+      transform: translateY(0%);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .review-marquee {
+      animation: none !important;
+      transform: none !important;
+    }
   }
 }
