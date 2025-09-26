@@ -47,7 +47,7 @@ const portfolioCategories: PortfolioCategory[] = [
   {
     key: "single",
     title: "ОДНОТОННОЕ ПОКРЫТИЕ",
-    shots: [
+    shots: [ 
       { src: blok1foto1, alt: "Однотонное покрытие — фото 1" },
       { src: blok1foto2, alt: "Однотонное покрытие — фото 2" },
       { src: blok1foto3, alt: "Однотонное покрытие — фото 3" },
@@ -87,13 +87,13 @@ const portfolioCategories: PortfolioCategory[] = [
     key: "custom",
     title: "ИНДИВИДУАЛЬНЫЙ ДИЗАЙН",
     shots: [
-      { src: blok4foto1, alt: "Индивидуальный дизайн — фото 1" },
+      { src: blok4foto7, alt: "Индивидуальный дизайн — фото 7" },
       { src: blok4foto2, alt: "Индивидуальный дизайн — фото 2" },
       { src: blok4foto3, alt: "Индивидуальный дизайн — фото 3" },
       { src: blok4foto4, alt: "Индивидуальный дизайн — фото 4" },
       { src: blok4foto5, alt: "Индивидуальный дизайн — фото 5" },
       { src: blok4foto6, alt: "Индивидуальный дизайн — фото 6" },
-      { src: blok4foto7, alt: "Индивидуальный дизайн — фото 7" },
+      { src: blok4foto1, alt: "Индивидуальный дизайн — фото 1" },
     ],
   },
 ];

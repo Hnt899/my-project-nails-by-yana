@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import sertifikat1 from "@/assets/sertifikat-1.jpg";
 import sertifikat2 from "@/assets/sertifikat-2.jpg";
@@ -11,8 +11,8 @@ import sertifikat8 from "@/assets/sertifikat-8.jpg";
 
 type Cert = { name: string; image: string };
 
-const certificates: Cert[] = [
-  { name: "Манекюра emi", image: sertifikat1 },
+const base8: Cert[] = [
+  { name: "Маникюра emi", image: sertifikat1 },
   { name: "Марафон", image: sertifikat2 },
   { name: "NAIL", image: sertifikat3 },
   { name: "EMI WORLD", image: sertifikat4 },
@@ -22,69 +22,162 @@ const certificates: Cert[] = [
   { name: "Обучающий эфир", image: sertifikat8 },
 ];
 
+const certificates: Cert[] = [
+  ...base8,
+  { name: "Сертификат #9", image: sertifikat1 },
+  { name: "Сертификат #10", image: sertifikat2 },
+  { name: "Сертификат #11", image: sertifikat3 },
+  { name: "Сертификат #12", image: sertifikat4 },
+  { name: "Сертификат #13", image: sertifikat5 },
+  { name: "Сертификат #14", image: sertifikat6 },
+  { name: "Сертификат #15", image: sertifikat7 },
+  { name: "Сертификат #16", image: sertifikat8 },
+];
+
+const FIRST_BATCH = 8;
+
+/* Иконки-стрелки */
+const ArrowDown: React.FC<{ className?: string }> = ({ className }) => (
+  <svg viewBox="0 0 24 24" className={className}><path d="M12 16 6 10h12l-6 6z" fill="currentColor"/></svg>
+);
+const ArrowUp: React.FC<{ className?: string }> = ({ className }) => (
+  <svg viewBox="0 0 24 24" className={className}><path d="M12 8 18 14H6l6-6z" fill="currentColor"/></svg>
+);
+
 const CertificatesSection: React.FC = () => {
+  const [expanded, setExpanded] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false); // <— добавлено
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
+
+  /* измеряем высоту скрытого контента (сетка + нижняя кнопка) */
+  const contentRef = useRef<HTMLDivElement | null>(null);
+  const [maxH, setMaxH] = useState(0);
+
+  const recalc = useCallback(() => {
+    if (contentRef.current) setMaxH(contentRef.current.scrollHeight);
+  }, []);
+
+  useEffect(() => {
+    recalc();
+    window.addEventListener("resize", recalc);
+    return () => window.removeEventListener("resize", recalc);
+  }, [recalc]);
+
+  useEffect(() => {
+    // если свернули, а открыт >8 — переносим на 8-й
+    if (!expanded && lightboxIdx !== null && lightboxIdx >= FIRST_BATCH) {
+      setLightboxIdx(FIRST_BATCH - 1);
+    }
+    requestAnimationFrame(recalc);
+  }, [expanded, lightboxIdx, recalc]);
+
+  const visibleCount = useMemo(
+    () => (expanded ? certificates.length : Math.min(FIRST_BATCH, certificates.length)),
+    [expanded]
+  );
 
   const openLightbox = (idx: number) => setLightboxIdx(idx);
   const closeLightbox = () => setLightboxIdx(null);
-
   const next = () =>
-    setLightboxIdx((i) => (i === null ? i : (i + 1) % certificates.length));
+    setLightboxIdx((i) => {
+      if (i === null) return i;
+      const cap = visibleCount;
+      return ((i % cap) + 1) % cap;
+    });
   const prev = () =>
-    setLightboxIdx((i) =>
-      i === null ? i : (i - 1 + certificates.length) % certificates.length
-    );
+    setLightboxIdx((i) => {
+      if (i === null) return i;
+      const cap = visibleCount;
+      return (i - 1 + cap) % cap;
+    });
 
-  // Esc / arrows + блокировка прокрутки фона
-  useEffect(() => {
-    if (lightboxIdx === null) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeLightbox();
-      if (e.key === "ArrowRight") next();
-      if (e.key === "ArrowLeft") prev();
-    };
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [lightboxIdx]);
+  const Card: React.FC<{ cert: Cert; idx: number }> = ({ cert, idx }) => (
+    <article
+      className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-background/40 shadow-[0_20px_60px_rgba(15,15,15,0.45)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_32px_80px_rgba(15,15,15,0.55)] cursor-zoom-in"
+      onClick={() => openLightbox(idx)}
+    >
+      <div className="relative aspect-[3/4] overflow-hidden">
+        <img
+          src={cert.image}
+          alt={cert.name}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          onLoad={recalc}
+        />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 via-black/60 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 z-10 px-5 pb-5">
+          <h3 className="mt-1 font-semibold text-sm uppercase tracking-[0.3em] text-foreground">
+            {cert.name}
+          </h3>
+        </div>
+      </div>
+    </article>
+  );
+
+  /* обработчик конца анимации max-height */
+  const onCollapseTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget && e.propertyName === "max-height") {
+      setIsAnimating(false);
+    }
+  };
 
   return (
     <section id="certificates" className="py-24 bg-background">
       <div className="container mx-auto px-4">
         <div className="flex flex-col-reverse gap-12 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(320px,440px)] xl:grid-cols-[minmax(0,1fr)_minmax(360px,500px)] lg:items-start lg:gap-x-24 xl:gap-x-28">
-          {/* Сетка сертификатов */}
-          <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4 xl:gap-8">
-            {certificates.map((cert, idx) => (
-              <article
-                key={cert.name}
-                className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-background/40 shadow-[0_20px_60px_rgba(15,15,15,0.45)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_32px_80px_rgba(15,15,15,0.55)] cursor-zoom-in"
-                onClick={() => openLightbox(idx)}
-              >
-                <div className="relative aspect-[3/4] overflow-hidden">
-                  <img
-                    src={cert.image}
-                    alt={cert.name}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
+          {/* Левая колонка */}
+          <div className="space-y-8">
+            {/* первые 8 */}
+            <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4 xl:gap-8">
+              {certificates.slice(0, FIRST_BATCH).map((c, i) => (
+                <Card key={`c1-${i}`} cert={c} idx={i} />
+              ))}
+            </div>
 
-                  {/* затемнение снизу для читабельности наших подписей и скрытия чужих ярлыков */}
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 via-black/60 to-transparent" />
+            {/* верхняя кнопка — показываем ТОЛЬКО когда не раскрыто и нет анимации */}
+            {(!expanded && !isAnimating) && (
+              <div className="flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => { setIsAnimating(true); setExpanded(true); }}
+                  className="group inline-flex h-14 w-14 items-center justify-center rounded-[18px] border border-white/15 bg-black/20 text-muted-foreground transition-all duration-300 hover:border-primary/60 hover:text-primary focus:outline-none"
+                  aria-expanded={false}
+                  aria-label="Показать дополнительные сертификаты"
+                >
+                  <ArrowDown className="h-6 w-6" />
+                </button>
+              </div>
+            )}
 
-                  {/* подписи поверх фото */}
-                  <div className="absolute inset-x-0 bottom-0 z-10 px-5 pb-5">
-                    <h3 className="mt-1 font-semibold text-sm uppercase tracking-[0.3em] text-foreground">
-                      {cert.name}
-                    </h3>
-                  </div>
+            {/* раскрывающийся блок */}
+            <div
+              style={{ maxHeight: expanded ? maxH : 0 }}
+              className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
+              onTransitionEnd={onCollapseTransitionEnd}
+            >
+              <div ref={contentRef}>
+                <div className="grid grid-cols-2 gap-6 pt-6 sm:grid-cols-3 lg:grid-cols-4 xl:gap-8 transition-opacity duration-300">
+                  {certificates.slice(FIRST_BATCH).map((c, i) => (
+                    <Card key={`c2-${i}`} cert={c} idx={FIRST_BATCH + i} />
+                  ))}
                 </div>
-              </article>
-            ))}
+
+                {/* нижняя кнопка — всегда по центру, исчезает сразу при закрытии */}
+                <div className="mt-8 flex justify-center">
+                  <button
+                    type="button"
+                    onClick={() => { setIsAnimating(true); setExpanded(false); }}
+                    className="group inline-flex h-14 w-14 items-center justify-center rounded-[18px] border border-white/15 bg-black/20 text-muted-foreground transition-all duration-300 hover:border-primary/60 hover:text-primary focus:outline-none"
+                    aria-expanded={true}
+                    aria-label="Свернуть дополнительные сертификаты"
+                  >
+                    <ArrowUp className="h-6 w-6" />
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Правая колонка — заголовок и текст */}
+          {/* Правая колонка */}
           <div className="flex flex-col items-center gap-8 text-center lg:items-end lg:text-right lg:self-start lg:max-w-[440px] xl:max-w-[500px]">
             <div className="space-y-4">
               <span className="inline-flex items-center gap-2 rounded-full border border-primary/40 px-4 py-1 text-[11px] font-medium uppercase tracking-[0.45em] text-muted-foreground/90">
@@ -104,7 +197,7 @@ const CertificatesSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Лайтбокс (простой, без библиотек) */}
+      {/* Лайтбокс */}
       {lightboxIdx !== null && (
         <div
           className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
@@ -114,7 +207,7 @@ const CertificatesSection: React.FC = () => {
         >
           <figure
             className="relative max-w-[96vw] max-h-[92vh]"
-            onClick={(e) => e.stopPropagation()} // чтобы не закрывать при клике на саму картинку
+            onClick={(e) => e.stopPropagation()}
           >
             <img
               src={certificates[lightboxIdx].image}
@@ -125,16 +218,12 @@ const CertificatesSection: React.FC = () => {
               {certificates[lightboxIdx].name}
             </figcaption>
 
-            {/* Кнопка закрыть */}
             <button
               onClick={closeLightbox}
               className="absolute -top-3 -right-3 rounded-full bg-black/70 px-3 py-1 text-xs uppercase tracking-[0.3em] text-white hover:bg-black/85"
-              aria-label="Закрыть"
             >
               закрыть
             </button>
-
-            {/* Навигация (простая) */}
             <button
               onClick={prev}
               className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/60 px-3 py-2 text-white/90 hover:bg-black/75"
