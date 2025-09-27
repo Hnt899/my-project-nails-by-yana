@@ -1,73 +1,75 @@
-# Welcome to your Lovable project
+# Nails by Yana
 
-## Project info
+Русскоязычный гид по запуску и проверке проекта на локальной машине.
 
-**URL**: https://lovable.dev/projects/2ee35ea7-7fab-4b3b-ac4d-b0b55b1a9383
+## Описание
 
-## How can I edit this code?
+"Nails by Yana" — одностраничное приложение на React/Vite с Tailwind CSS и компонентами shadcn-ui. Проект подходит для демонстрации салона маникюра, витрины услуг и записи клиентов.
 
-There are several ways of editing your application.
+## Требования
 
-**Use Lovable**
+Перед началом убедитесь, что установлены:
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/2ee35ea7-7fab-4b3b-ac4d-b0b55b1a9383) and start prompting.
+- **Node.js** версии 18 или выше (рекомендуется 20 LTS). Проверить можно командой `node -v`.
+- **npm** версии 9 или выше (`npm -v`).
+- Опционально: менеджер версий [nvm](https://github.com/nvm-sh/nvm#installing-and-updating), если нужно быстро переключаться между версиями Node.js.
 
-Changes made via Lovable will be committed automatically to this repo.
+## Быстрый старт
 
-**Use your preferred IDE**
+1. **Клонировать репозиторий**:
+   ```bash
+   git clone <URL_ВАШЕГО_РЕПОЗИТОРИЯ>
+   cd nails-by-yana
+   ```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+2. **Установить зависимости**:
+   ```bash
+   npm install
+   ```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+3. **Запустить локальный сервер**:
+   ```bash
+   npm run dev
+   ```
 
-Follow these steps:
+4. **Открыть приложение**:
+   - После запуска Vite подскажет адрес сервера (по умолчанию `http://localhost:5173`).
+   - Откройте ссылку в браузере и убедитесь, что страница загружается без ошибок.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Как проверить, что всё работает
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- **Интерактивная проверка**: пройдитесь по ключевым разделам сайта, протестируйте основные кнопки, формы и ссылки.
+- **Проверка линтинга** (опционально, но рекомендуется перед коммитом):
+  ```bash
+  npm run lint
+  ```
+  Команда должна завершиться без ошибок. Если есть предупреждения, исправьте их согласно подсказкам.
+- **Сборка для продакшена** (при необходимости):
+  ```bash
+  npm run build
+  ```
+  В папке `dist` появится оптимизированная версия приложения.
 
-# Step 3: Install the necessary dependencies.
-npm i
+## Полезные команды
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+| Команда            | Назначение                                           |
+|--------------------|------------------------------------------------------|
+| `npm run dev`      | Запуск локального dev-сервера с горячей перезагрузкой |
+| `npm run build`    | Сборка приложения для продакшена                     |
+| `npm run preview`  | Предпросмотр собранной версии                         |
+| `npm run lint`     | Проверка кода линтером ESLint                         |
 
-**Edit a file directly in GitHub**
+## Структура проекта
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- `src/` — исходный код приложения (компоненты, стили, утилиты).
+- `public/` — статические файлы, доступные без обработки Vite.
+- `tailwind.config.ts`, `postcss.config.js` — настройки Tailwind CSS.
+- `tsconfig*.json` — конфигурации TypeScript.
 
-**Use GitHub Codespaces**
+## Советы по разработке
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- После изменений в зависимостях не забывайте обновлять lock-файл (`package-lock.json`).
+- Проверяйте консоль браузера и терминал на предмет предупреждений.
+- Перед пушем рекомендуется запускать `npm run lint`, чтобы убедиться в чистоте кода.
 
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/2ee35ea7-7fab-4b3b-ac4d-b0b55b1a9383) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Удачной разработки!
