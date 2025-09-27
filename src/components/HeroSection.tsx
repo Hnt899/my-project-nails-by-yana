@@ -1,16 +1,12 @@
-import { Button } from '@/components/ui/button';
-import pantherHero from '@/assets/panther-hero.jpg';
+import { Button } from "@/components/ui/button";
+import pantherHero from "@/assets/panther-hero.jpg";
+
+const BOOKING_URL = "https://dikidi.ru/1679582";
 
 const HeroSection = () => {
-  const scrollToContact = () => {
-    const element = document.getElementById('contact');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <section className="relative isolate flex min-h-screen items-center overflow-hidden bg-[#050505]">
+      {/* Фон секции + пантера справа только на ПК */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[#050505]" aria-hidden="true" />
         <img
@@ -19,21 +15,28 @@ const HeroSection = () => {
           aria-hidden="true"
           className="pointer-events-none absolute right-[-12%] top-1/2 hidden h-[125%] max-w-none -translate-y-1/2 object-contain md:block"
         />
-        <img
-          src={pantherHero}
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 block h-full w-full object-cover object-right opacity-30 md:hidden"
-        />
         <div
-          className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/95 to-transparent"
+          className="absolute inset-0 hidden bg-gradient-to-r from-[#050505] via-[#050505]/95 to-transparent md:block"
           aria-hidden="true"
         />
       </div>
-
       <div className="container relative z-10 mx-auto px-4 py-20 lg:py-32">
-        <div className="max-w-xl rounded-[40px] border border-primary/20 bg-background/80 p-8 sm:p-12 shadow-2xl backdrop-blur-md text-left animate-slide-up">
-          <div className="space-y-6">
+        {/* Карточка */}
+        <div className="relative max-w-xl overflow-hidden rounded-[40px] border border-primary/20 bg-background/80 p-8 sm:p-12 shadow-2xl backdrop-blur-md text-left animate-slide-up">
+          {/* МОБИЛКА: пантера под текстом */}
+          <img
+            src={pantherHero}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 z-0 h-full w-full object-cover object-right opacity-45 brightness-110 contrast-110 md:hidden"
+          />
+          <div
+            className="absolute inset-0 z-[1] bg-gradient-to-br from-black/40 via-black/20 to-transparent md:hidden"
+            aria-hidden="true"
+          />
+
+          {/* Контент поверх */}
+          <div className="relative z-10 space-y-6">
             <p className="text-sm font-semibold uppercase tracking-[0.55em] text-muted-foreground">
               ЯНА ПИЛИТ
             </p>
@@ -44,7 +47,7 @@ const HeroSection = () => {
             </h1>
             <div className="space-y-2 text-lg sm:text-xl font-medium text-foreground">
               <p>
-                ЕСЛИ ВЫ ИСКАЛИ{' '}
+                ЕСЛИ ВЫ ИСКАЛИ{" "}
                 <span className="text-primary font-semibold">ЛУЧШЕГО МАСТЕРА</span>
               </p>
               <p>ПО УХОДУ ЗА СВОИМИ НОГТЯМИ В</p>
@@ -54,16 +57,15 @@ const HeroSection = () => {
               </p>
               <p>ТО ВЫ ЕГО НАШЛИ</p>
             </div>
-            <Button
-              onClick={scrollToContact}
-              className="btn-hero text-lg sm:text-xl px-10 sm:px-12 py-5 sm:py-6 mt-4"
-            >
-              ЗАПИСАТЬСЯ
+            <Button asChild className="btn-hero text-lg sm:text-xl px-10 sm:px-12 py-5 sm:py-6 mt-4">
+              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                ЗАПИСАТЬСЯ
+              </a>
             </Button>
           </div>
         </div>
       </div>
-
+      {/* Световые пятна */}
       <div
         className="absolute -left-24 top-24 hidden h-64 w-64 rounded-full bg-primary/20 blur-3xl md:block"
         aria-hidden="true"
@@ -72,6 +74,10 @@ const HeroSection = () => {
         className="absolute bottom-10 left-1/3 h-40 w-40 rounded-full bg-secondary/30 blur-3xl"
         aria-hidden="true"
       />
+      {/* РОЗОВАЯ ЛИНИЯ НА ВСЮ ШИРИНУ ЭКРАНА */}
+<div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-screen z-20">
+  <div className="h-[3px] md:h-[4px] bg-gradient-to-r from-transparent via-[#FF62B1] to-transparent" />
+</div>
     </section>
   );
 };
