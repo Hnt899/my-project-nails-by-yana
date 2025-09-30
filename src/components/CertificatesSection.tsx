@@ -9,29 +9,39 @@ import sertifikat6 from "@/assets/sertifikat-6.jpg";
 import sertifikat7 from "@/assets/sertifikat-7.jpg";
 import sertifikat8 from "@/assets/sertifikat-8.jpg";
 
+// новые фото 9–16
+import sertifikat9 from "@/assets/sertifikat-9.jpg";
+import sertifikat10 from "@/assets/sertifikat-10.jpg";
+import sertifikat11 from "@/assets/sertifikat-11.jpg";
+import sertifikat12 from "@/assets/sertifikat-12.jpg";
+import sertifikat13 from "@/assets/sertifikat-13.jpg";
+import sertifikat14 from "@/assets/sertifikat-14.jpg";
+import sertifikat15 from "@/assets/sertifikat-15.jpg";
+import sertifikat16 from "@/assets/sertifikat-16.jpg";
+
 type Cert = { name: string; image: string };
 
 const base8: Cert[] = [
-  { name: "Маникюра emi", image: sertifikat1 },
+  { name: "Маникюра EMI", image: sertifikat1 },
   { name: "Марафон", image: sertifikat2 },
   { name: "NAIL", image: sertifikat3 },
   { name: "EMI WORLD", image: sertifikat4 },
   { name: "EMI Сертификат", image: sertifikat5 },
   { name: "Мастер-класс", image: sertifikat6 },
-  { name: "Нормы Санпина", image: sertifikat7 },
+  { name: "Нормы СанПиН", image: sertifikat7 },
   { name: "Обучающий эфир", image: sertifikat8 },
 ];
 
 const certificates: Cert[] = [
   ...base8,
-  { name: "Сертификат #9", image: sertifikat1 },
-  { name: "Сертификат #10", image: sertifikat2 },
-  { name: "Сертификат #11", image: sertifikat3 },
-  { name: "Сертификат #12", image: sertifikat4 },
-  { name: "Сертификат #13", image: sertifikat5 },
-  { name: "Сертификат #14", image: sertifikat6 },
-  { name: "Сертификат #15", image: sertifikat7 },
-  { name: "Сертификат #16", image: sertifikat8 },
+  { name: "Моделирование ногтей авангардных форм (2012)", image: sertifikat9 },
+  { name: "Гель-лак GelLaxy (2011)", image: sertifikat10 },
+  { name: "Художественная лепка (2010)", image: sertifikat11 },
+  { name: "Френч-моделирование, удлинение ложа (2011)", image: sertifikat12 },
+  { name: "Френч-моделирование, удлинение ложа (2011)", image: sertifikat13 },
+  { name: "Диплом Blaze Nails (2012)", image: sertifikat14 },
+  { name: "Китайская роспись (2010)", image: sertifikat15 },
+  { name: "Modern Salon Nail Modeling (2023)", image: sertifikat16 },
 ];
 
 const FIRST_BATCH = 8;
@@ -46,10 +56,9 @@ const ArrowUp: React.FC<{ className?: string }> = ({ className }) => (
 
 const CertificatesSection: React.FC = () => {
   const [expanded, setExpanded] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false); // <— добавлено
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
 
-  /* измеряем высоту скрытого контента (сетка + нижняя кнопка) */
+  // измеряем высоту скрытого блока
   const contentRef = useRef<HTMLDivElement | null>(null);
   const [maxH, setMaxH] = useState(0);
 
@@ -113,13 +122,6 @@ const CertificatesSection: React.FC = () => {
     </article>
   );
 
-  /* обработчик конца анимации max-height */
-  const onCollapseTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget && e.propertyName === "max-height") {
-      setIsAnimating(false);
-    }
-  };
-
   return (
     <section id="certificates" className="py-24 bg-background">
       <div className="container mx-auto px-4">
@@ -133,41 +135,62 @@ const CertificatesSection: React.FC = () => {
               ))}
             </div>
 
-            {/* верхняя кнопка — показываем ТОЛЬКО когда не раскрыто и нет анимации */}
-            {(!expanded && !isAnimating) && (
-              <div className="flex justify-center">
-                <button
-                  type="button"
-                  onClick={() => { setIsAnimating(true); setExpanded(true); }}
-                  className="group inline-flex h-14 w-14 items-center justify-center rounded-[18px] border border-white/15 bg-black/20 text-muted-foreground transition-all duration-300 hover:border-primary/60 hover:text-primary focus:outline-none"
-                  aria-expanded={false}
-                  aria-label="Показать дополнительные сертификаты"
-                >
-                  <ArrowDown className="h-6 w-6" />
-                </button>
-              </div>
-            )}
+            {/* верхняя кнопка — не занимает места при expanded */}
+            <div
+              className={
+                "relative flex justify-center overflow-hidden transition-[height] duration-300 " +
+                (expanded ? "h-0" : "h-14")
+              }
+            >
+              <button
+                type="button"
+                onClick={() => setExpanded(true)}
+                className={
+                  "group absolute inline-flex h-14 w-14 items-center justify-center rounded-[18px] " +
+                  "border border-white/15 bg-black/20 text-muted-foreground transition-all " +
+                  "duration-300 ease-out hover:border-primary/60 hover:text-primary focus:outline-none " +
+                  (expanded
+                    ? "opacity-0 scale-95 pointer-events-none"
+                    : "opacity-100 scale-100 pointer-events-auto")
+                }
+                aria-expanded={expanded}
+                aria-label="Показать дополнительные сертификаты"
+              >
+                <ArrowDown className="h-6 w-6" />
+              </button>
+            </div>
 
             {/* раскрывающийся блок */}
             <div
               style={{ maxHeight: expanded ? maxH : 0 }}
               className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
-              onTransitionEnd={onCollapseTransitionEnd}
             >
-              <div ref={contentRef}>
-                <div className="grid grid-cols-2 gap-6 pt-6 sm:grid-cols-3 lg:grid-cols-4 xl:gap-8 transition-opacity duration-300">
+              <div
+                ref={contentRef}
+                className={
+                  expanded
+                    ? "opacity-100 transition-opacity duration-300"
+                    : "opacity-0 transition-opacity duration-200"
+                }
+              >
+                <div className={`grid grid-cols-2 gap-6 ${expanded ? "pt-4" : "pt-6"} sm:grid-cols-3 lg:grid-cols-4 xl:gap-8`}>
                   {certificates.slice(FIRST_BATCH).map((c, i) => (
                     <Card key={`c2-${i}`} cert={c} idx={FIRST_BATCH + i} />
                   ))}
                 </div>
 
-                {/* нижняя кнопка — всегда по центру, исчезает сразу при закрытии */}
+                {/* нижняя кнопка — плавно исчезает при сворачивании */}
                 <div className="mt-8 flex justify-center">
                   <button
                     type="button"
-                    onClick={() => { setIsAnimating(true); setExpanded(false); }}
-                    className="group inline-flex h-14 w-14 items-center justify-center rounded-[18px] border border-white/15 bg-black/20 text-muted-foreground transition-all duration-300 hover:border-primary/60 hover:text-primary focus:outline-none"
-                    aria-expanded={true}
+                    onClick={() => setExpanded(false)}
+                    className={
+                      "group inline-flex h-14 w-14 items-center justify-center rounded-[18px] " +
+                      "border border-white/15 bg-black/20 text-muted-foreground transition-all duration-300 " +
+                      "hover:border-primary/60 hover:text-primary focus:outline-none " +
+                      (expanded ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none")
+                    }
+                    aria-expanded={expanded}
                     aria-label="Свернуть дополнительные сертификаты"
                   >
                     <ArrowUp className="h-6 w-6" />
@@ -189,9 +212,9 @@ const CertificatesSection: React.FC = () => {
               </h2>
             </div>
             <p className="max-w-sm text-sm font-medium leading-relaxed tracking-[0.2em] text-muted-foreground uppercase lg:max-w-none lg:text-base xl:tracking-[0.22em]">
-              <span className="text-foreground">Я ГОРЖУСЬ КАЖДЫМ ИЗ ЭТИХ СЕРТИФИКАТОВ</span>
-              {" — ОНИ НАПОМИНАЮТ МНЕ О ПУТИ, КОТОРЫЙ Я ПРОШЛА, ЧТОБЫ "}
-              <span className="text-primary">ДАВАТЬ ВАМ ТОЛЬКО ЛУЧШЕЕ.</span>
+              <span className="text-foreground">Я горжусь каждым из этих сертификатов</span>
+              {" — они напоминают о пути, который я прошла, чтобы "}
+              <span className="text-primary">давать вам только лучшее.</span>
             </p>
           </div>
         </div>
