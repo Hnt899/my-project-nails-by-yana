@@ -34,14 +34,14 @@ const base8: Cert[] = [
 
 const certificates: Cert[] = [
   ...base8,
-  { name: "Моделирование ногтей авангардных форм (2012)", image: sertifikat9 },
-  { name: "Гель-лак GelLaxy (2011)", image: sertifikat10 },
-  { name: "Художественная лепка (2010)", image: sertifikat11 },
-  { name: "Френч-моделирование, удлинение ложа (2011)", image: sertifikat12 },
-  { name: "Френч-моделирование, удлинение ложа (2011)", image: sertifikat13 },
-  { name: "Диплом Blaze Nails (2012)", image: sertifikat14 },
-  { name: "Китайская роспись (2010)", image: sertifikat15 },
-  { name: "Modern Salon Nail Modeling (2023)", image: sertifikat16 },
+  { name: "Моделирование авангардных форм", image: sertifikat9 },
+  { name: "Гель-лак GelLaxy", image: sertifikat10 },
+  { name: "Художественная лепка", image: sertifikat11 },
+  { name: "Френч-моделирование, удлинение ложа ", image: sertifikat12 },
+  { name: "Френч-моделирование, удлинение ложа", image: sertifikat13 },
+  { name: "Диплом Blaze Nails", image: sertifikat14 },
+  { name: "Китайская роспись ", image: sertifikat15 },
+  { name: "Modern Salon Nail Modeling", image: sertifikat16 },
 ];
 
 const FIRST_BATCH = 8;
