@@ -16,6 +16,18 @@ import product8  from "@/assets/services/product8.jpg";  // Коррекция 1
 import product9  from "@/assets/services/product9.jpg";  // Педикюр с покрытием
 import product10 from "@/assets/services/product10.jpg"; // (новое фото)
 
+/* =========== ПРЕМИУМ ФОТО (ГЛОБ-ИМПОРТ) =========== */
+const premiumImages = import.meta.glob<string>(
+  "@/assets/services/productprem*.{jpg,jpeg,png,webp}",
+  { eager: true, import: "default" }
+);
+
+const productprem1 = premiumImages["/src/assets/services/productprem1.jpg"];
+const productprem2 = premiumImages["/src/assets/services/productprem2.jpg"];
+const productprem3 = premiumImages["/src/assets/services/productprem3.jpg"];
+const productprem4 = premiumImages["/src/assets/services/productprem4.jpg"];
+const productprem5 = premiumImages["/src/assets/services/productprem5.jpg"];
+
 /* ------------ Данные услуг (10 шт.) ------------ */
 type Service = {
   category: string;
@@ -24,7 +36,7 @@ type Service = {
   image?: string;
 };
 
-const services: Service[] = [
+const basicServices: Service[] = [
   { category: "Дизайн",       name: "Роспись на всех пальцах",                               price: "от 600 ₽",   image: product1  },
   { category: "Наращивание",  name: "Наращивание 4–5",                                       price: "от 2 300 ₽", image: product2  },
   { category: "Наращивание",  name: "Наращивание 6–7",                                       price: "от 3 200 ₽", image: product3  },
@@ -35,6 +47,39 @@ const services: Service[] = [
   { category: "Коррекция",    name: "Коррекция 1–3",                                         price: "от 1 900 ₽", image: product8  },
   { category: "Педикюр",      name: "Педикюр с покрытием гель-лак",                          price: "2 500 ₽",    image: product9  },
   { category: "Коррекция",    name: "Коррекция 1–3",                                         price: "от 1 900 ₽", image: product10 },
+];
+
+const premiumServices: Service[] = [
+  {
+    category: "Премиум",
+    name: "Luxe-маникюр со SPA-уходом и массажем",
+    price: "4 500 ₽",
+    image: productprem1,
+  },
+  {
+    category: "Премиум",
+    name: "Эксклюзивный дизайн с ручной росписью",
+    price: "от 3 900 ₽",
+    image: productprem2,
+  },
+  {
+    category: "Премиум",
+    name: "Комплекс \"Свадебное сияние\"",
+    price: "5 200 ₽",
+    image: productprem3,
+  },
+  {
+    category: "Премиум",
+    name: "Наращивание с эффектом кристаллов",
+    price: "от 4 700 ₽",
+    image: productprem4,
+  },
+  {
+    category: "Премиум",
+    name: "Премиум-педикюр с парафинотерапией",
+    price: "4 000 ₽",
+    image: productprem5,
+  },
 ];
 
 /* Градиенты рамки/панели */
@@ -56,12 +101,77 @@ const priceToNumber = (p: string) => {
 };
 
 const ServicesSection = () => {
-
   // сортируем по возрастанию цены
-  const sorted = useMemo(
-    () => [...services].sort((a, b) => priceToNumber(a.price) - priceToNumber(b.price)),
+  const sortedBasic = useMemo(
+    () => [...basicServices].sort((a, b) => priceToNumber(a.price) - priceToNumber(b.price)),
     []
   );
+
+  const getGradients = (index: number) => {
+    const rowIndex = Math.floor(index / 5);
+    return {
+      frameGradient: frameGradients[rowIndex % frameGradients.length],
+      panelGradient: panelGradients[rowIndex % panelGradients.length],
+    };
+  };
+
+  const renderServicesGrid = (items: Service[]) => (
+    <div className="grid grid-cols-1 gap-8 md:grid-cols-3 xl:grid-cols-5">
+      {items.map((service, index) => {
+        const { frameGradient, panelGradient } = getGradients(index);
+
+        return (
+          <div
+            key={`${service.category}-${service.name}`}
+            className={`rounded-[34px] bg-gradient-to-br ${frameGradient} p-[1.5px]`}
+          >
+            <div className="service-card group flex h-full flex-col !border-0 !bg-background/95 !rounded-[30px]">
+              {/* Фото / плейсхолдер */}
+              <div className="aspect-square overflow-hidden rounded-t-[28px] bg-muted/10">
+                {service.image ? (
+                  <img
+                    src={service.image}
+                    alt={`${service.name} — ${service.category}`}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center text-sm text-muted-foreground">
+                    Фото будет добавлено
+                  </div>
+                )}
+              </div>
+
+              <div
+                className={`flex flex-1 flex-col justify-between gap-6 rounded-b-[28px] bg-gradient-to-br ${panelGradient} p-6 text-center`}
+              >
+                <div className="space-y-3">
+                  <span className="inline-flex items-center justify-center rounded-full bg-primary/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+                    {service.category}
+                  </span>
+
+                  <h3 className="font-semibold text-sm leading-tight text-foreground">
+                    {service.name}
+                  </h3>
+                  <p className="text-lg font-bold text-primary">{service.price}</p>
+                </div>
+                <Button asChild className="btn-hero w-full py-2 text-sm">
+                  <a
+                    href={BOOKING_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Записаться на услугу: ${service.name}`}
+                  >
+                    ЗАПИСАТЬСЯ
+                  </a>
+                </Button>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+
   return (
     <section id="services" className="py-20 bg-background">
       <div className="container mx-auto px-4">
@@ -78,65 +188,30 @@ const ServicesSection = () => {
           </div>
         </div>
 
+        {/* Базовые услуги */}
+        <div className="mb-12 text-center">
+          <span className="inline-flex items-center justify-center rounded-full bg-primary/10 px-6 py-2 text-xs font-semibold uppercase tracking-[0.4em] text-primary">
+            Базовые услуги
+          </span>
+          <p className="mt-6 text-balance text-muted-foreground md:text-lg">
+            Выверенная коллекция обязательных процедур, которые поддерживают идеальную форму и здоровье ногтей каждый день.
+          </p>
+        </div>
 
         {/* Grid — 10 карточек, уже отсортированы по цене */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 xl:grid-cols-5">
-          {sorted.map((service, index) => {
-            const rowIndex = Math.floor(index / 5);
-            const frameGradient = frameGradients[rowIndex % frameGradients.length];
-            const panelGradient = panelGradients[rowIndex % panelGradients.length];
+        {renderServicesGrid(sortedBasic)}
 
-            return (
-              <div
-                key={`${service.category}-${service.name}`}
-                className={`rounded-[34px] bg-gradient-to-br ${frameGradient} p-[1.5px]`}
-              >
-                <div className="service-card group flex h-full flex-col !border-0 !bg-background/95 !rounded-[30px]">
-                  {/* Фото / плейсхолдер */}
-                  <div className="aspect-square overflow-hidden rounded-t-[28px] bg-muted/10">
-                    {service.image ? (
-                      <img
-                        src={service.image}
-                        alt={`${service.name} — ${service.category}`}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center text-sm text-muted-foreground">
-                        Фото будет добавлено
-                      </div>
-                    )}
-                  </div>
-
-                  <div
-                    className={`flex flex-1 flex-col justify-between gap-6 rounded-b-[28px] bg-gradient-to-br ${panelGradient} p-6 text-center`}
-                  >
-                    <div className="space-y-3">
-
-                      <span className="inline-flex items-center justify-center rounded-full bg-primary/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
-                        {service.category}
-                      </span>
-
-                      <h3 className="font-semibold text-sm leading-tight text-foreground">
-                        {service.name}
-                      </h3>
-                      <p className="text-lg font-bold text-primary">{service.price}</p>
-                    </div>
-                    <Button asChild className="btn-hero w-full py-2 text-sm">
-                      <a
-                        href={BOOKING_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`Записаться на услугу: ${service.name}`}
-                      >
-                        ЗАПИСАТЬСЯ
-                      </a>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+        {/* Премиум услуги */}
+        <div className="mt-20 mb-12 text-center">
+          <span className="inline-flex items-center justify-center rounded-full bg-primary/10 px-6 py-2 text-xs font-semibold uppercase tracking-[0.4em] text-primary">
+            Премиум услуги
+          </span>
+          <p className="mt-6 text-balance text-muted-foreground md:text-lg">
+            Для особых случаев и клиентов, которые ценят безупречный сервис: сложные дизайны, расширенные уходы и эксклюзивные ритуалы.
+          </p>
         </div>
+
+        {renderServicesGrid(premiumServices)}
       </div>
     </section>
   );
