@@ -16,6 +16,18 @@ import product8  from "@/assets/services/product8.jpg";  // Коррекция 1
 import product9  from "@/assets/services/product9.jpg";  // Педикюр с покрытием
 import product10 from "@/assets/services/product10.jpg"; // (новое фото)
 
+/* =========== ПРЕМИУМ ФОТО (ГЛОБ-ИМПОРТ) =========== */
+const premiumImages = import.meta.glob<string>(
+  "@/assets/services/productprem*.{jpg,jpeg,png,webp}",
+  { eager: true, import: "default" }
+);
+
+const productprem1 = premiumImages["/src/assets/services/productprem1.jpg"];
+const productprem2 = premiumImages["/src/assets/services/productprem2.jpg"];
+const productprem3 = premiumImages["/src/assets/services/productprem3.jpg"];
+const productprem4 = premiumImages["/src/assets/services/productprem4.jpg"];
+const productprem5 = premiumImages["/src/assets/services/productprem5.jpg"];
+
 /* ------------ Данные услуг (10 шт.) ------------ */
 type Service = {
   category: string;
@@ -42,26 +54,31 @@ const premiumServices: Service[] = [
     category: "Премиум",
     name: "Luxe-маникюр со SPA-уходом и массажем",
     price: "4 500 ₽",
+    image: productprem1,
   },
   {
     category: "Премиум",
     name: "Эксклюзивный дизайн с ручной росписью",
     price: "от 3 900 ₽",
+    image: productprem2,
   },
   {
     category: "Премиум",
     name: "Комплекс \"Свадебное сияние\"",
     price: "5 200 ₽",
+    image: productprem3,
   },
   {
     category: "Премиум",
     name: "Наращивание с эффектом кристаллов",
     price: "от 4 700 ₽",
+    image: productprem4,
   },
   {
     category: "Премиум",
     name: "Премиум-педикюр с парафинотерапией",
     price: "4 000 ₽",
+    image: productprem5,
   },
 ];
 
