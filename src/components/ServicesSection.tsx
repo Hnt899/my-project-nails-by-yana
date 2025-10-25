@@ -52,32 +52,32 @@ const basicServices: Service[] = [
 const premiumServices: Service[] = [
   {
     category: "Премиум",
-    name: "Luxe-маникюр со SPA-уходом и массажем",
-    price: "4 500 ₽",
+    name: "Наращивание стилет, 3д дизайн",
+    price: "от 8 000 ₽",
     image: productprem1,
   },
   {
     category: "Премиум",
-    name: "Эксклюзивный дизайн с ручной росписью",
-    price: "от 3 900 ₽",
+    name: "Наращивание edge, выкладной френч, аквариум",
+    price: "от 7 000 ₽",
     image: productprem2,
   },
   {
     category: "Премиум",
-    name: "Комплекс \"Свадебное сияние\"",
-    price: "5 200 ₽",
+    name: "Розовые готический миндаль, выкладной френч, аквариум, 3д дизайн ",
+    price: "от 8 000 ₽",
     image: productprem3,
   },
   {
     category: "Премиум",
-    name: "Наращивание с эффектом кристаллов",
-    price: "от 4 700 ₽",
+    name: "готический миндаль, выкладной френч, аквариум цена в зависимости от длинны. ",
+    price: "от 5 000 ₽",
     image: productprem4,
   },
   {
     category: "Премиум",
-    name: "Премиум-педикюр с парафинотерапией",
-    price: "4 000 ₽",
+    name: "3д дизайн ирисы цена за 1 ноготь",
+    price: "1 000 ₽",
     image: productprem5,
   },
 ];

@@ -18,6 +18,11 @@ import sertifikat13 from "@/assets/sertifikat-13.jpg";
 import sertifikat14 from "@/assets/sertifikat-14.jpg";
 import sertifikat15 from "@/assets/sertifikat-15.jpg";
 import sertifikat16 from "@/assets/sertifikat-16.jpg";
+import sertifikat17 from "@/assets/sertifikat-17.jpg";
+import sertifikat18 from "@/assets/sertifikat-18.jpg";
+import sertifikat19 from "@/assets/sertifikat-19.jpg";
+import sertifikat20 from "@/assets/sertifikat-20.jpg";
+
 
 type Cert = { name: string; image: string };
 
@@ -42,6 +47,10 @@ const certificates: Cert[] = [
   { name: "Диплом Blaze Nails", image: sertifikat14 },
   { name: "Китайская роспись ", image: sertifikat15 },
   { name: "Modern Salon Nail Modeling", image: sertifikat16 },
+  { name: "Актуальные техники современного педикюра", image: sertifikat17 },
+  { name: "Японский маникюр восходящий тренд 2025г", image: sertifikat18 },
+  { name: "Готический миндаль. Арочный квадрат", image: sertifikat19 },
+  { name: "Emi world 3 место", image: sertifikat20 },
 ];
 
 const FIRST_BATCH = 8;
